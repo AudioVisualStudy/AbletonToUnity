@@ -1,0 +1,15 @@
+# Ableton Live auto backups
+Backup/
+**/Backup/
+
+# Ableton project cache / info
+Ableton Project Info/
+**/Ableton Project Info/
+
+# Freeze files (optional)
+Freeze/
+**/Freeze/
+
+# OS / editor junk
+.DS_Store
+Thumbs.db
