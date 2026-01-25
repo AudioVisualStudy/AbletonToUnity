@@ -445,8 +445,12 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5329582147748472695, guid: a7e36eb4ea489114eaf426db69f5ed64, type: 3}
+      propertyPath: _NoteOff
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5329582147748472695, guid: a7e36eb4ea489114eaf426db69f5ed64, type: 3}
       propertyPath: _PitchBend
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5329582147748472695, guid: a7e36eb4ea489114eaf426db69f5ed64, type: 3}
       propertyPath: bpmSampleCount
