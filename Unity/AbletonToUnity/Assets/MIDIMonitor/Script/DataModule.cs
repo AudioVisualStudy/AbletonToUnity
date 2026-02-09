@@ -2,7 +2,7 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using yugop.midi;
+using yugop.connection;
 
 public class DataModule : MonoBehaviour {
 
@@ -15,7 +15,7 @@ public class DataModule : MonoBehaviour {
 
     public MidiType type;
 
-    public  float startAlpha = 1f;
+    public float startAlpha = 1f;
     public float endAlpha = 0.05f;
 
     public float fadeDuration = 0.5f;
@@ -35,7 +35,7 @@ public class DataModule : MonoBehaviour {
 
 
     // データを設定
-    public void setData ( MidiType type , object data ) {
+    public void setData ( MidiType type, object data ) {
         this.type = type;
 
         switch ( type ) {
@@ -47,7 +47,7 @@ public class DataModule : MonoBehaviour {
                     titleText.text = $"{type.ToString ()} : {note.String}";
                     dataNameText.text = $"String\nNumber\nVelocity";
                     dataValueText.text = $"{note.String}\n{note.Number}\n{note.Velocity}";
-                    
+
                     // 音階に応じた色を取得
                     color = GetColorByPitch ( note.Number );
                     bgImage.color = color;
@@ -59,7 +59,7 @@ public class DataModule : MonoBehaviour {
                     titleText.text = type.ToString ();
                     dataNameText.text = $"Ratio\nRaw Value";
                     dataValueText.text = $"{pb.Ratio:F2}\n{pb.RawValue}";
-                    
+
                     // 値に応じたグラデーション色を取得
                     color = GetColorByValue ( pb.Ratio );
                     bgImage.color = color;
@@ -71,7 +71,7 @@ public class DataModule : MonoBehaviour {
                     titleText.text = type.ToString ();
                     dataNameText.text = $"CC Number\nCC Value";
                     dataValueText.text = $"{cc.ControlNumber}\n{cc.ControlValue}";
-                    
+
                     // 0-127を-1.0-1.0に正規化して色を取得
                     float normalizedValue = ( cc.ControlValue - 64f ) / 64f;
                     color = GetColorByValue ( normalizedValue );
@@ -98,29 +98,29 @@ public class DataModule : MonoBehaviour {
         // 色相を12分割（0-1の範囲、1色あたり1/12 ≒ 0.0833）
         float hue = pitchClass / 12f;
         // HSVからRGBに変換（彩度と明度は調整可能）
-        Color pitchColor = Color.HSVToRGB ( hue , saturation , brightness );
+        Color pitchColor = Color.HSVToRGB ( hue, saturation, brightness );
         return pitchColor;
     }
 
     // 値から色を取得（-1.0: 青、0: 緑、1.0: 赤）色相グラデーション
     Color GetColorByValue ( float normalizedValue ) {
         // 値を -1.0 ~ 1.0 の範囲にクランプ
-        normalizedValue = Mathf.Clamp ( normalizedValue , -1f , 1f );
+        normalizedValue = Mathf.Clamp ( normalizedValue, -1f, 1f );
 
         float hue;
 
         if ( normalizedValue < 0f ) {
             // -1.0 ~ 0.0: 青(240°)から緑(120°)へ
             float t = ( normalizedValue + 1f ); // 0.0 ~ 1.0 に変換
-            hue = Mathf.Lerp ( 240f / 360f , 120f / 360f , t ); // 240° → 120°
+            hue = Mathf.Lerp ( 240f / 360f, 120f / 360f, t ); // 240° → 120°
         } else {
             // 0.0 ~ 1.0: 緑(120°)から赤(0°)へ
             float t = normalizedValue;
-            hue = Mathf.Lerp ( 120f / 360f , 0f , t ); // 120° → 0°
+            hue = Mathf.Lerp ( 120f / 360f, 0f, t ); // 120° → 0°
         }
 
         // HSVからRGBに変換（彩度と明度は固定）
-        Color resultColor = Color.HSVToRGB ( hue , saturation , brightness );
+        Color resultColor = Color.HSVToRGB ( hue, saturation, brightness );
 
         return resultColor;
     }
@@ -129,10 +129,10 @@ public class DataModule : MonoBehaviour {
     public void startFadeOut () {
         group.alpha = startAlpha;
         StopAllCoroutines ();
-        StartCoroutine ( fadeOutCoroutine ( fadeDuration , fadeDelay ) );
+        StartCoroutine ( fadeOutCoroutine ( fadeDuration, fadeDelay ) );
     }
     // フェードアウトのコルーチン
-    IEnumerator fadeOutCoroutine ( float duration , float delay ) {
+    IEnumerator fadeOutCoroutine ( float duration, float delay ) {
 
         yield return new WaitForSeconds ( delay );
 
@@ -141,7 +141,7 @@ public class DataModule : MonoBehaviour {
         while ( elapsed < duration ) {
             elapsed += Time.deltaTime;
             float f = elapsed / duration;
-            group.alpha = HEasing.Ease ( startAlpha , endAlpha , f , HEasingType.easeOutSine );
+            group.alpha = HEasing.Ease ( startAlpha, endAlpha, f, HEasingType.easeOutSine );
 
             yield return null;
         }

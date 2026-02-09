@@ -30,7 +30,7 @@ namespace yugop.connection {
         /// <summary>
         /// コンストラクタ（ノート番号指定）
         /// </summary>
-        public MidiNote ( int channel , int number , int velocity ) {
+        public MidiNote ( int channel, int number, int velocity ) {
             Channel = channel;
             Number = number;
             _string = null;
@@ -40,7 +40,7 @@ namespace yugop.connection {
         /// <summary>
         /// コンストラクタ（ノート名指定）
         /// </summary>
-        public MidiNote ( int channel , string noteString , int velocity ) {
+        public MidiNote ( int channel, string noteString, int velocity ) {
             Channel = channel;
             Number = MIDIUtil.toNoteNumber ( noteString );
             _string = noteString;
@@ -111,7 +111,7 @@ namespace yugop.connection {
         /// <summary>
         /// コンストラクタ（生の値で指定）
         /// </summary>
-        public MidiPitchBend ( int channel , int rawValue ) {
+        public MidiPitchBend ( int channel, int rawValue ) {
             Channel = channel;
             _rawValue = rawValue;
         }
@@ -119,16 +119,16 @@ namespace yugop.connection {
         /// <summary>
         /// コンストラクタ（正規化値で指定）
         /// </summary>
-        public MidiPitchBend ( int channel , float normalizedValue ) {
+        public MidiPitchBend ( int channel, float normalizedValue ) {
             Channel = channel;
-            _rawValue = ( int ) ( normalizedValue * 8192f + 8192f );
+            _rawValue = (int) ( normalizedValue * 8192f + 8192f );
         }
 
         /// <summary>
         /// 正規化値から生の値を設定
         /// </summary>
         public void SetFromNormalized ( float normalizedValue ) {
-            _rawValue = ( int ) ( Mathf.Clamp ( normalizedValue , -1f , 1f ) * 8192f + 8192f );
+            _rawValue = (int) ( Mathf.Clamp ( normalizedValue, -1f, 1f ) * 8192f + 8192f );
         }
 
         /// <summary>
@@ -171,7 +171,7 @@ namespace yugop.connection {
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        public MidiControlChange ( int channel , int controlNumber , int controlValue ) {
+        public MidiControlChange ( int channel, int controlNumber, int controlValue ) {
             Channel = channel;
             ControlNumber = controlNumber;
             ControlValue = controlValue;
@@ -188,7 +188,7 @@ namespace yugop.connection {
         /// 正規化値からコントロール値を設定
         /// </summary>
         public void SetFromNormalized ( float normalizedValue ) {
-            ControlValue = ( int ) ( Mathf.Clamp01 ( normalizedValue ) * 127f );
+            ControlValue = (int) ( Mathf.Clamp01 ( normalizedValue ) * 127f );
         }
 
         /// <summary>
@@ -219,7 +219,7 @@ namespace yugop.connection {
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        public MidiProgramChange ( int channel , int programNumber ) {
+        public MidiProgramChange ( int channel, int programNumber ) {
             Channel = channel;
             ProgramNumber = programNumber;
         }
@@ -260,7 +260,7 @@ namespace yugop.connection {
         /// <returns>ノート名とオクターブを組み合わせた文字列（例: "C4", "A#5"）</returns>
         /// 
         public static string toNoteString ( int noteNumber ) {
-            string [] noteNames = { "C" , "C#" , "D" , "D#" , "E" , "F" , "F#" , "G" , "G#" , "A" , "A#" , "B" };
+            string [] noteNames = { "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B" };
             int octave = ( noteNumber / 12 ) - 2;
             string noteName = noteNames [ noteNumber % 12 ];
             return noteName + octave.ToString ();
@@ -280,7 +280,7 @@ namespace yugop.connection {
 
             noteString = noteString.Trim ().ToUpper ();
 
-            string [] noteNames = { "C" , "C#" , "D" , "D#" , "E" , "F" , "F#" , "G" , "G#" , "A" , "A#" , "B" };
+            string [] noteNames = { "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B" };
 
             // 音名部分とオクターブ部分を分離
             string noteName = "";
@@ -310,7 +310,7 @@ namespace yugop.connection {
             }
 
             // オクターブを整数に変換
-            if ( !int.TryParse ( octaveString , out int octave ) ) {
+            if ( !int.TryParse ( octaveString, out int octave ) ) {
                 Debug.LogWarning ( $"Invalid octave: {octaveString}" );
                 return -1;
             }

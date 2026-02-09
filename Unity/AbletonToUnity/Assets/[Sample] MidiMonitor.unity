@@ -282,18 +282,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 891224126}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a0cdf0187ca90c442886905edc074369, type: 3}
+  m_Script: {fileID: 11500000, guid: 3345d2363ea0a3c4d821e54488ba2ae1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MidiInReceiver
   MIDI_PortName: AbletonToUnity
   ConnectOnAwake: 1
-  useDebugLog: 0
+  useDebugLog: 1
   debugNoteOn: 1
   debugNoteOff: 1
   debugControlChange: 1
   debugPitchBend: 1
-  debugProgramChange: 1
-  debugOtherEvents: 1
+  debugProgramChange: 0
+  debugOtherEvents: 0
 --- !u!4 &891224128
 Transform:
   m_ObjectHideFlags: 0

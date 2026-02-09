@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
-using yugop.midi;
+using yugop.connection;
 
 public class ChannelModule : MonoBehaviour {
     public DataModule dataMoulePrefab;

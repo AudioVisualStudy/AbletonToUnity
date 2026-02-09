@@ -1,10 +1,9 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using yugop.midi;
+using yugop.connection;
 
 public class MidiMonitor : MonoBehaviour {
     public ChannelModule channelModulePrefab;
@@ -50,7 +49,7 @@ public class MidiMonitor : MonoBehaviour {
     float xGrid = 260;
     float yStart = -160f;
 
-    private MIDIHub hub;
+    private MidiHub hub;
     private List<int> monitorChannel = new List<int> ();
 
     List<ChannelModule> channelModules = new List<ChannelModule> ();
@@ -64,7 +63,7 @@ public class MidiMonitor : MonoBehaviour {
         Application.targetFrameRate = 60;
         bpmText.gameObject.SetActive ( false );
 
-        hub = MIDIHub.Instance;
+        hub = MidiHub.Instance;
 
         // 監視対象のチャンネルリストを決定
         if ( listenToAllChannels ) {
