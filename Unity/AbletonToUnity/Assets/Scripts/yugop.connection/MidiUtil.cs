@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace yugop.midi {
+namespace yugop.connection {
 
 
     /// <summary>

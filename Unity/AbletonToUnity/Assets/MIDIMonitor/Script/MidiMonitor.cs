@@ -6,36 +6,41 @@ using UnityEngine;
 using UnityEngine.UI;
 using yugop.midi;
 
-public class MIDIMonitor : MonoBehaviour {
-
+public class MidiMonitor : MonoBehaviour {
     public ChannelModule channelModulePrefab;
     public CanvasScaler canvasScaler;
     public Transform mainPanel;
     public TextMeshProUGUI bpmText;
 
     [Header ( "表示スケール" )]
-    [Range ( 0.1f , 3f )]
+    [Range ( 0.1f, 3f )]
     public float scale = 1f;
+
     [Space ( 10 )]
     [Header ( "すべてのチャンネルをモニターする場合はチェック" )]
     [Space ( 10 )]
     public bool listenToAllChannels = true;
+
     [Space ( 10 )]
     [Header ( "特定のチャンネルに絞りたい時は上記のチェックを外して以下で複数指定" )]
     [Space ( 10 )]
     public List<int> listeningChannels = new List<int> { 0 };
+
     [Header ( "モニターしたいイベントをチェック" )]
     [Space ( 10 )]
     public bool _NoteOn = true;
+
     public bool _NoteOff = false;
     public bool _PitchBend = false;
     public bool _ControlChange = false;
     public bool _ProgramChange = false;
+
     [Space ( 10 )]
     [Header ( "拍を刻むチャンネルがあれば指定（NoteOn周期でBPM算出）" )]
     public int metronomeChannel = -1;
-    [Header ( "BPM計算用の平均化サンプル数" )]
-    public int bpmSampleCount = 4;
+
+    [Header ( "BPM計算用の平均化サンプル数" )] public int bpmSampleCount = 4;
+
     // [HideInInspector]
     public static float BPM; // 現在のBPM値
 
@@ -75,11 +80,11 @@ public class MIDIMonitor : MonoBehaviour {
 
         // 各チャンネルに対して、有効なイベントのリスナーのみを登録
         foreach ( int channel in monitorChannel ) {
-            if ( _NoteOn ) hub.AddNoteOnListener ( OnNoteOn , channel );
-            if ( _NoteOff ) hub.AddNoteOffListener ( OnNoteOff , channel );
-            if ( _ControlChange ) hub.AddControlChangeListener ( OnControlChange , channel );
-            if ( _PitchBend ) hub.AddPitchBendListener ( OnPitchBend , channel );
-            if ( _ProgramChange ) hub.AddProgramChangeListener ( OnProgramChange , channel );
+            if ( _NoteOn ) hub.AddNoteOnListener ( OnNoteOn, channel );
+            if ( _NoteOff ) hub.AddNoteOffListener ( OnNoteOff, channel );
+            if ( _ControlChange ) hub.AddControlChangeListener ( OnControlChange, channel );
+            if ( _PitchBend ) hub.AddPitchBendListener ( OnPitchBend, channel );
+            if ( _ProgramChange ) hub.AddProgramChangeListener ( OnProgramChange, channel );
         }
     }
 
@@ -93,7 +98,6 @@ public class MIDIMonitor : MonoBehaviour {
         if ( _PitchBend ) hub.RemovePitchBendListener ( OnPitchBend );
         if ( _ProgramChange ) hub.RemoveProgramChangeListener ( OnProgramChange );
     }
-
 
 
     // 各イベントハンドラ（メインスレッドで実行される）
@@ -170,6 +174,7 @@ public class MIDIMonitor : MonoBehaviour {
         foreach ( float time in metronomeTimes ) {
             averageInterval += time;
         }
+
         averageInterval /= metronomeTimes.Count;
 
         // BPM = 60 / 1拍の秒数（小数点2桁で丸める）
@@ -178,10 +183,8 @@ public class MIDIMonitor : MonoBehaviour {
     }
 
 
-
     // チャンネルモジュールを取得または新規作成
     ChannelModule GetOrCreateModule ( int chNum ) {
-
         // 既存のChannelModuleを検索
         ChannelModule existingModule = null;
         foreach ( ChannelModule module in channelModules ) {
@@ -197,7 +200,7 @@ public class MIDIMonitor : MonoBehaviour {
         }
 
         // 新しいChannelModuleをインスタンス化
-        ChannelModule newModule = Instantiate ( channelModulePrefab , mainPanel );
+        ChannelModule newModule = Instantiate ( channelModulePrefab, mainPanel );
         newModule.gameObject.name = "Channel " + chNum;
         newModule.setChannelNumber ( chNum );
 
@@ -215,11 +218,11 @@ public class MIDIMonitor : MonoBehaviour {
     //チャンネルモジュールを、Number順に並び替え
     void arrangeChannelModules () {
         // channelNumberでソート
-        channelModules.Sort ( ( a , b ) => a.Number.CompareTo ( b.Number ) );
+        channelModules.Sort ( ( a, b ) => a.Number.CompareTo ( b.Number ) );
 
         // 横並びで配置
         for ( int i = 0; i < channelModules.Count; i++ ) {
-            Vector3 position = new Vector3 ( xStart + i * xGrid , yStart , 0f );
+            Vector3 position = new Vector3 ( xStart + i * xGrid, yStart, 0f );
             channelModules [ i ].setUIPosition ( position );
         }
     }

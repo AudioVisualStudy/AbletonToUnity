@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace yugop.midi {
+namespace yugop.connection {
 
     /// <summary>
     /// DryWetMIDI経由でMIDIイベントを受信し、登録されたリスナーにMIDIイベントを配信するクラス。

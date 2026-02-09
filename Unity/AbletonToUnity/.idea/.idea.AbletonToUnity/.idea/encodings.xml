@@ -2,7 +2,8 @@
 <project version="4">
   <component name="Encoding" addBOMForNewFiles="with BOM under Windows, with no BOM otherwise">
     <file url="file://$PROJECT_DIR$/Assets/MIDIMonitor/Script/ChannelModule.cs" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/Assets/MIDIMonitor/Script/MIDIMonitor.cs" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Assets/MIDIMonitor/Script/DataModule.cs" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Assets/MIDIMonitor/Script/MidiMonitor.cs" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/Assets/Scripts/yugop.midi/MIDIHub.cs" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/Assets/Scripts/yugop.midi/MidiUtil.cs" charset="UTF-8" />
   </component>

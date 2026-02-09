@@ -5,7 +5,6 @@ using UnityEngine;
 using yugop.midi;
 
 public class ChannelModule : MonoBehaviour {
-
     public DataModule dataMoulePrefab;
     public TextMeshProUGUI titleText;
 
@@ -34,38 +33,39 @@ public class ChannelModule : MonoBehaviour {
     }
 
     #region MIDIイベント受信処理
+
     //NotoOnイベント受信時
     public void onNoteOn ( MidiNote note ) {
         DataModule dataModule = GetOrCreateDataModule ( MidiType.NoteOn );
-        dataModule.setData ( MidiType.NoteOn , note );
+        dataModule.setData ( MidiType.NoteOn, note );
         dataModule.startFadeOut ();
     }
 
     //NoteOffイベント受信時
     public void onNoteOff ( MidiNote note ) {
         DataModule dataModule = GetOrCreateDataModule ( MidiType.NoteOff );
-        dataModule.setData ( MidiType.NoteOff , note );
+        dataModule.setData ( MidiType.NoteOff, note );
         dataModule.startFadeOut ();
     }
 
     //PitchBendイベント受信時
     public void onPitchBend ( MidiPitchBend pitchBend ) {
         DataModule dataModule = GetOrCreateDataModule ( MidiType.PitchBend );
-        dataModule.setData ( MidiType.PitchBend , pitchBend );
+        dataModule.setData ( MidiType.PitchBend, pitchBend );
         dataModule.startFadeOut ();
     }
 
     //ControlChangeイベント受信時
     public void onControlChange ( MidiControlChange controlChange ) {
         DataModule dataModule = GetOrCreateDataModule ( MidiType.ControlChange );
-        dataModule.setData ( MidiType.ControlChange , controlChange );
+        dataModule.setData ( MidiType.ControlChange, controlChange );
         dataModule.startFadeOut ();
     }
 
     //ProgramChangeイベント受信時
     public void onProgramChange ( MidiProgramChange programChange ) {
         DataModule dataModule = GetOrCreateDataModule ( MidiType.ProgramChange );
-        dataModule.setData ( MidiType.ProgramChange , programChange );
+        dataModule.setData ( MidiType.ProgramChange, programChange );
         dataModule.startFadeOut ();
     }
 
@@ -78,8 +78,9 @@ public class ChannelModule : MonoBehaviour {
                 return module;
             }
         }
+
         //なければ新規作成して返す
-        DataModule newModule = Instantiate ( dataMoulePrefab , transform );
+        DataModule newModule = Instantiate ( dataMoulePrefab, transform );
         newModule.gameObject.name = "Module-" + newModule.type.ToString ();
         newModule.type = type;
 
@@ -94,7 +95,7 @@ public class ChannelModule : MonoBehaviour {
 
         // 縦に並べる
         for ( int i = 0; i < sortedModules.Count; i++ ) {
-            sortedModules [ i ].setUIPosition ( new Vector2 ( startX , startY - ( i * gridY ) ) );
+            sortedModules [ i ].setUIPosition ( new Vector2 ( startX, startY - ( i * gridY ) ) );
         }
     }
 }
