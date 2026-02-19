@@ -35,7 +35,7 @@ public class MidiMonitor : MonoBehaviour {
     public bool _ProgramChange = false;
 
     [Space ( 10 )]
-    [Header ( "拍を刻むチャンネルがあれば指定（NoteOn周期でBPM算出）" )]
+    [Header ( "拍を刻むチャンネルがあれば指定（NoteOn周期でBPM算出）なければ-1を指定" )]
     public int metronomeChannel = -1;
 
     [Header ( "BPM計算用の平均化サンプル数" )] public int bpmSampleCount = 4;
@@ -49,7 +49,7 @@ public class MidiMonitor : MonoBehaviour {
     float xGrid = 260;
     float yStart = -160f;
 
-    private MidiHub hub;
+    private MidiHub midiHub;
     private List<int> monitorChannel = new List<int> ();
 
     List<ChannelModule> channelModules = new List<ChannelModule> ();
@@ -63,7 +63,8 @@ public class MidiMonitor : MonoBehaviour {
         Application.targetFrameRate = 60;
         bpmText.gameObject.SetActive ( false );
 
-        hub = MidiHub.Instance;
+        //MidiHubインスタンスへの参照
+        midiHub = MidiHub.Instance;
 
         // 監視対象のチャンネルリストを決定
         if ( listenToAllChannels ) {
@@ -79,27 +80,27 @@ public class MidiMonitor : MonoBehaviour {
 
         // 各チャンネルに対して、有効なイベントのリスナーのみを登録
         foreach ( int channel in monitorChannel ) {
-            if ( _NoteOn ) hub.AddNoteOnListener ( OnNoteOn, channel );
-            if ( _NoteOff ) hub.AddNoteOffListener ( OnNoteOff, channel );
-            if ( _ControlChange ) hub.AddControlChangeListener ( OnControlChange, channel );
-            if ( _PitchBend ) hub.AddPitchBendListener ( OnPitchBend, channel );
-            if ( _ProgramChange ) hub.AddProgramChangeListener ( OnProgramChange, channel );
+            if ( _NoteOn ) midiHub.AddNoteOnListener ( OnNoteOn, channel );
+            if ( _NoteOff ) midiHub.AddNoteOffListener ( OnNoteOff, channel );
+            if ( _ControlChange ) midiHub.AddControlChangeListener ( OnControlChange, channel );
+            if ( _PitchBend ) midiHub.AddPitchBendListener ( OnPitchBend, channel );
+            if ( _ProgramChange ) midiHub.AddProgramChangeListener ( OnProgramChange, channel );
         }
     }
 
     // オブジェクト破棄時にリスナーを解除
     void OnDestroy () {
-        if ( hub == null ) return;
+        if ( midiHub == null ) return;
         // 登録したリスナーのみを解除
-        if ( _NoteOn ) hub.RemoveNoteOnListener ( OnNoteOn );
-        if ( _NoteOff ) hub.RemoveNoteOffListener ( OnNoteOff );
-        if ( _ControlChange ) hub.RemoveControlChangeListener ( OnControlChange );
-        if ( _PitchBend ) hub.RemovePitchBendListener ( OnPitchBend );
-        if ( _ProgramChange ) hub.RemoveProgramChangeListener ( OnProgramChange );
+        if ( _NoteOn ) midiHub.RemoveNoteOnListener ( OnNoteOn );
+        if ( _NoteOff ) midiHub.RemoveNoteOffListener ( OnNoteOff );
+        if ( _ControlChange ) midiHub.RemoveControlChangeListener ( OnControlChange );
+        if ( _PitchBend ) midiHub.RemovePitchBendListener ( OnPitchBend );
+        if ( _ProgramChange ) midiHub.RemoveProgramChangeListener ( OnProgramChange );
     }
 
 
-    // 各イベントハンドラ（メインスレッドで実行される）
+    // 各イベントハンドラ
 
     // NoteOnイベント受信時
     void OnNoteOn ( MidiNote note ) {

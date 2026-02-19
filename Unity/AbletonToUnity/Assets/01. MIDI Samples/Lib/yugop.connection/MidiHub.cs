@@ -17,9 +17,9 @@ namespace yugop.connection {
     public class MidiHub : MonoBehaviour {
 
         [Header ( "受信するMIDIのポート名" )]
-        public string MIDI_PortName = "AbletonToUnity";  // 受信するMIDIのポート名
+        public string MIDI_PortName = "";  // 受信するMIDIのポート名
 
-        [Header ( "開始時にMIDIポートに接続するかどうか" )]
+        [Header ( "開始時にMIDIポートに接続する" )]
         public bool ConnectOnAwake = true;
 
         [Header ( "デバッグ出力のON/OFF" )]
@@ -86,7 +86,8 @@ namespace yugop.connection {
                     var action = mainThreadQueue.Dequeue ();
                     try {
                         action?.Invoke ();
-                    } catch ( Exception e ) {
+                    }
+                    catch ( Exception e ) {
                         Debug.LogError ( $"[MIDIHub] Error executing queued action: {e.Message}\n{e.StackTrace}" );
                     }
                 }
@@ -95,6 +96,13 @@ namespace yugop.connection {
 
         // MIDIポートの接続開始
         public void startConnection () {
+            if ( Input != null ) {
+                return; // すでに接続済みの場合は無視
+            }
+            if ( string.IsNullOrWhiteSpace ( MIDI_PortName ) ) {
+                Debug.LogError ( "[MidiHub] MIDI_PortName が未設定です。Inspector で「受信するMIDIのポート名」を指定してください。" );
+                return;
+            }
             Input = InputDevice.GetByName ( MIDI_PortName );
             Input.EventReceived += OnEventReceived;
             Input.StartEventsListening ();
@@ -106,6 +114,7 @@ namespace yugop.connection {
             if ( Input != null ) {
                 Input.EventReceived -= OnEventReceived;
                 Input.Dispose ();
+                Input = null;
             }
         }
 
@@ -115,37 +124,37 @@ namespace yugop.connection {
 
             switch ( e.Event ) {
                 case NoteOnEvent noteOn when noteOn.Velocity > 0:
-                    showDebug ( $" [NoteOn] Channel = {(int) noteOn.Channel} / Note = {noteOn.NoteNumber} (\"{MIDIUtil.toNoteString ( noteOn.NoteNumber )}\") / Velocity = {noteOn.Velocity}", debugNoteOn );
+                    showDebug ( $" [NoteOn] Channel = {( int )noteOn.Channel} / Note = {noteOn.NoteNumber} (\"{MIDIUtil.toNoteString ( noteOn.NoteNumber )}\") / Velocity = {noteOn.Velocity}", debugNoteOn );
                     // メインスレッドで実行
                     EnqueueMainThreadAction ( () => InvokeNoteOnListeners ( noteOn ) );
                     break;
 
                 case NoteOffEvent noteOff:
-                    showDebug ( $" [NoteOff] Channel = {(int) noteOff.Channel} / Note = {noteOff.NoteNumber} (\"{MIDIUtil.toNoteString ( noteOff.NoteNumber )}\")", debugNoteOff );
+                    showDebug ( $" [NoteOff] Channel = {( int )noteOff.Channel} / Note = {noteOff.NoteNumber} (\"{MIDIUtil.toNoteString ( noteOff.NoteNumber )}\")", debugNoteOff );
                     // メインスレッドで実行
                     EnqueueMainThreadAction ( () => InvokeNoteOffListeners ( noteOff.Channel, noteOff.NoteNumber, 0 ) );
                     break;
 
                 case NoteOnEvent noteOn when noteOn.Velocity == 0:
-                    showDebug ( $" [NoteOff] Channel = {(int) noteOn.Channel} / Note = {MIDIUtil.toNoteString ( noteOn.NoteNumber )}", debugNoteOff );
+                    showDebug ( $" [NoteOff] Channel = {( int )noteOn.Channel} / Note = {MIDIUtil.toNoteString ( noteOn.NoteNumber )}", debugNoteOff );
                     // メインスレッドで実行
                     EnqueueMainThreadAction ( () => InvokeNoteOffListeners ( noteOn.Channel, noteOn.NoteNumber, 0 ) );
                     break;
 
                 case ControlChangeEvent cc:
-                    showDebug ( $" [ControlChange] Channel = {(int) cc.Channel} / Number = {cc.ControlNumber} / Value = {cc.ControlValue}", debugControlChange );
+                    showDebug ( $" [ControlChange] Channel = {( int )cc.Channel} / Number = {cc.ControlNumber} / Value = {cc.ControlValue}", debugControlChange );
                     // メインスレッドで実行
                     EnqueueMainThreadAction ( () => InvokeControlChangeListeners ( cc ) );
                     break;
 
                 case PitchBendEvent pb:
-                    showDebug ( $" [PitchBend] Channel = {(int) pb.Channel} / Value = {pb.PitchValue}", debugPitchBend );
+                    showDebug ( $" [PitchBend] Channel = {( int )pb.Channel} / Value = {pb.PitchValue}", debugPitchBend );
                     // メインスレッドで実行
                     EnqueueMainThreadAction ( () => InvokePitchBendListeners ( pb ) );
                     break;
 
                 case ProgramChangeEvent pc:
-                    showDebug ( $" [ProgramChange] Channel = {(int) pc.Channel} / Program = {pc.ProgramNumber}", debugProgramChange );
+                    showDebug ( $" [ProgramChange] Channel = {( int )pc.Channel} / Program = {pc.ProgramNumber}", debugProgramChange );
                     // メインスレッドで実行
                     EnqueueMainThreadAction ( () => InvokeProgramChangeListeners ( pc ) );
                     break;
@@ -312,7 +321,7 @@ namespace yugop.connection {
         #region リスナー呼び出しメソッド（メインスレッドで実行される）
 
         private void InvokeNoteOnListeners ( NoteOnEvent noteOn ) {
-            int channel = (int) noteOn.Channel;
+            int channel = ( int )noteOn.Channel;
             var eventData = new MidiNote ( channel, noteOn.NoteNumber, noteOn.Velocity );
 
             foreach ( var listener in noteOnListeners ) {
@@ -323,7 +332,7 @@ namespace yugop.connection {
         }
 
         private void InvokeNoteOffListeners ( FourBitNumber channel, SevenBitNumber noteNumber, int velocity ) {
-            int ch = (int) channel;
+            int ch = ( int )channel;
             var eventData = new MidiNote ( ch, noteNumber, velocity );
 
             foreach ( var listener in noteOffListeners ) {
@@ -334,7 +343,7 @@ namespace yugop.connection {
         }
 
         private void InvokeControlChangeListeners ( ControlChangeEvent cc ) {
-            int channel = (int) cc.Channel;
+            int channel = ( int )cc.Channel;
             var eventData = new MidiControlChange ( channel, cc.ControlNumber, cc.ControlValue );
 
             foreach ( var listener in controlChangeListeners ) {
@@ -345,7 +354,7 @@ namespace yugop.connection {
         }
 
         private void InvokePitchBendListeners ( PitchBendEvent pb ) {
-            int channel = (int) pb.Channel;
+            int channel = ( int )pb.Channel;
             var eventData = new MidiPitchBend ( channel, pb.PitchValue );
 
             foreach ( var listener in pitchBendListeners ) {
@@ -356,7 +365,7 @@ namespace yugop.connection {
         }
 
         private void InvokeProgramChangeListeners ( ProgramChangeEvent pc ) {
-            int channel = (int) pc.Channel;
+            int channel = ( int )pc.Channel;
             var eventData = new MidiProgramChange ( channel, pc.ProgramNumber );
 
             foreach ( var listener in programChangeListeners ) {

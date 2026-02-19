@@ -151,16 +151,16 @@ MonoBehaviour:
   canvasScaler: {fileID: 8519744571913920804}
   mainPanel: {fileID: 6860759527709153233}
   bpmText: {fileID: 654007780087633444}
-  scale: 1.51
+  scale: 1
   listenToAllChannels: 1
-  listeningChannels: 00000000
+  listeningChannels: 0100000002000000
   _NoteOn: 1
-  _NoteOff: 0
-  _PitchBend: 0
-  _ControlChange: 0
-  _ProgramChange: 0
+  _NoteOff: 1
+  _PitchBend: 1
+  _ControlChange: 1
+  _ProgramChange: 1
   metronomeChannel: 0
-  bpmSampleCount: 4
+  bpmSampleCount: 10
 --- !u!1 &6328356101174235608
 GameObject:
   m_ObjectHideFlags: 0
