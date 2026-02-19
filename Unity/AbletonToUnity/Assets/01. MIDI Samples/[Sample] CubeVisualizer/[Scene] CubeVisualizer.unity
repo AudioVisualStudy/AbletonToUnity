@@ -5441,6 +5441,9 @@ MonoBehaviour:
   proportionMinDifference: 0.3
   proportionSmoothSpeed: 0.25
   cameraShakeMaxRadius: 0.5
+  cameraShakeExponent: 2
+  cameraShakePositionScale: {x: 2, y: 1, z: 1}
+  cameraShakeMaxRollDegrees: 10
   cameraBasePosition: {x: 0, y: 0, z: -4}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
