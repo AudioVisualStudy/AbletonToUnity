@@ -287,13 +287,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MidiInReceiver
   MIDI_PortName: AbletonToUnity
   ConnectOnAwake: 1
-  useDebugLog: 1
+  useDebugLog: 0
   debugNoteOn: 1
   debugNoteOff: 1
   debugControlChange: 1
   debugPitchBend: 1
-  debugProgramChange: 0
-  debugOtherEvents: 0
+  debugProgramChange: 1
+  debugOtherEvents: 1
 --- !u!4 &891224128
 Transform:
   m_ObjectHideFlags: 0
@@ -450,6 +450,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5329582147748472695, guid: a7e36eb4ea489114eaf426db69f5ed64, type: 3}
       propertyPath: _PitchBend
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5329582147748472695, guid: a7e36eb4ea489114eaf426db69f5ed64, type: 3}
+      propertyPath: _ControlChange
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5329582147748472695, guid: a7e36eb4ea489114eaf426db69f5ed64, type: 3}
+      propertyPath: _ProgramChange
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5329582147748472695, guid: a7e36eb4ea489114eaf426db69f5ed64, type: 3}
