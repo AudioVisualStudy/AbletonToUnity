@@ -5428,13 +5428,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Onomatope
   cubePrefab: {fileID: 1623983503756892231, guid: 75931b113fa0cba4488cad4f8aca71b2, type: 3}
-  maxCubeCount: 10
-  drumChannel: 1
-  NoteNum_Kick: 36
-  NoteNum_HiHut: 46
-  NoteNum_Clap: 39
-  kickStrength: 700
-  velocityDecay: 0.85
+  cubeCount: 10
+  kickStrength: 500
+  velocityDecay: 0.8
   centerOffsetRadius: 0.1
   positionAttractionStrength: 20
   positionKickStrength: 2
@@ -5444,11 +5440,11 @@ MonoBehaviour:
   proportionMaxScale: 2
   proportionMinDifference: 0.3
   proportionSmoothSpeed: 0.25
-  vibrationExponent: 2
-  cubeVibrationPositionRadius: 0.2
-  cubeVibrationRotationDegrees: 10
-  globalVolume: {fileID: 1592975581}
-  chromaticAberrationMax: 1
+  cameraShakeMaxRadius: 0.5
+  cameraShakeExponent: 2
+  cameraShakePositionScale: {x: 2, y: 1, z: 1}
+  cameraShakeMaxRollDegrees: 10
+  cameraBasePosition: {x: 0, y: 0, z: -4}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
