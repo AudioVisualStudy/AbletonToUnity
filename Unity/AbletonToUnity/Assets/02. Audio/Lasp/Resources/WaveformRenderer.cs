@@ -21,6 +21,27 @@ using UnityEngine.Rendering;
 //   interleaved data span/slice. You have to read them in a strided way if you
 //   want individual channel data.
 //
+// Comparison (when to use which):
+//
+//   AudioLevelTracker:
+//     - Pros: Device selection by deviceID (InputDevices[index].ID). One tracker
+//       per channel, each gives a channel-strided slice (audioDataSlice) so no
+//       deinterleaving. Fits Inspector-driven setup (e.g. DeviceSelector).
+//     - Cons: N channels => N GameObjects + N components. Carries level-tracking
+//       and property-binder machinery even when only waveform is needed.
+//
+//   InputStream:
+//     - Pros: Single stream for all channels; GetChannelDataSlice(channel) or
+//       interleaved read. No level-tracking overhead. Lighter when you only need
+//       raw waveform.
+//     - Cons: Public API in samples only shows GetDefaultInputStream() (default
+//       device). If device-by-ID open is not exposed, you cannot choose an
+//       arbitrary input device (e.g. VAIO1, BlackHole) from the Inspector.
+//
+//   Use AudioLevelTracker when you need explicit device selection (by index/ID).
+//   Use InputStream when default device is enough and you want a single stream
+//   and minimal overhead for multi-channel waveform.
+//
 // This renderer script uses the former approach. It converts a waveform into a
 // vertex array and renders it as a line strip mesh.
 //

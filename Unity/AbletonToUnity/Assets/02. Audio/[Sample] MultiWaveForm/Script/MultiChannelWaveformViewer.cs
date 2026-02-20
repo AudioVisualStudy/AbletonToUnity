@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using Unity.Collections;
 using UnityEngine;
 
@@ -50,7 +51,8 @@ public sealed class MultiChannelWaveformViewer : MonoBehaviour
     [SerializeField] Material _lineMaterial = null;
 
     [Header("Colors (per channel)")]
-    [SerializeField] Color[] _channelColors = new Color[]
+    [SerializeField]
+    Color[] _channelColors = new Color[]
     {
         new Color(1f, 0.2f, 0.2f),
         new Color(0.2f, 0.8f, 0.2f),
@@ -161,6 +163,26 @@ public sealed class MultiChannelWaveformViewer : MonoBehaviour
 
     #region Helpers
 
+    /// <summary>
+    /// Lasp AudioLevelTracker を生波形取得用に設定する。
+    /// Filter=Bypass, AutoGain=off, SmoothFall=off にし、audioDataSlice ができるだけ加工されないようにする。
+    /// </summary>
+    static void ApplyRawWaveformSettings(Lasp.AudioLevelTracker tracker)
+    {
+        if (tracker == null) return;
+        var t = tracker.GetType();
+        const BindingFlags flags = BindingFlags.NonPublic | BindingFlags.Instance;
+
+        var filterType = t.GetField("_filterType", flags);
+        if (filterType != null) filterType.SetValue(tracker, 0); // 0 = Bypass
+
+        var autoGain = t.GetField("_autoGain", flags);
+        if (autoGain != null) autoGain.SetValue(tracker, false);
+
+        var smoothFall = t.GetField("_smoothFall", flags);
+        if (smoothFall != null) smoothFall.SetValue(tracker, false);
+    }
+
     void EnsureChannelArrays()
     {
         if (_channelEnabled == null || _channelEnabled.Length < MaxChannels)
@@ -229,6 +251,7 @@ public sealed class MultiChannelWaveformViewer : MonoBehaviour
             var tracker = go.AddComponent<Lasp.AudioLevelTracker>();
             tracker.deviceID = _deviceId;
             tracker.channel = ch;
+            ApplyRawWaveformSettings(tracker);
             _trackers.Add(tracker);
             _ringBuffers.Add(new float[_bufferLength]);
             _writeIndices.Add(0);

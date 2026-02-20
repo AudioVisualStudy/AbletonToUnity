@@ -1,8 +1,8 @@
 using UnityEditor;
 using UnityEngine;
 
-[CustomEditor(typeof(MultiChannelWaveformViewer))]
-public sealed class MultiChannelWaveformViewerEditor : Editor
+[CustomEditor(typeof(MultiWaveForm))]
+public sealed class MultiWaveFormEditor : Editor
 {
     SerializedProperty _deviceIndex;
     SerializedProperty _channelEnabled;

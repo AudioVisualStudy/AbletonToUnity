@@ -308,7 +308,8 @@ MonoBehaviour:
   _displayHeight: 1080
   _amplitude: 4
   _lineWidth: 3
-  _lineMaterial: {fileID: 10306, guid: 0000000000000000f000000000000000, type: 0}
+  _lineMaterial: {fileID: 2100000, guid: 8ca8cddcb5a70ec4291be7b9bc75c28c, type: 2}
+  _useAdditiveBlend: 1
   _channelColors:
   - {r: 1, g: 0.2, b: 0.2, a: 1}
   - {r: 0.2, g: 0.8, b: 0.2, a: 1}
