@@ -12,7 +12,7 @@ using UnityEngine;
 // 音声入力のレイテンシ:
 // - Lasp の audioDataSlice は「直近1フレーム分」のデータのため、
 //   取得時点で約1フレーム分の遅れがある。
-// - 取得は LateUpdate で行い同一フレーム内では可能な限り遅いタイミングで読むようにしている。
+// - 取得は Update で行う（Lasp は EarlyUpdate でバッファ更新のため、Update で読めばそのフレームの最新が取れる）。
 //
 public sealed class MultiWaveData : MonoBehaviour {
     #region Inspector
@@ -87,17 +87,14 @@ public sealed class MultiWaveData : MonoBehaviour {
         RebuildDeviceAndBuffers ();
     }
 
-    // デバイス番号やバッファ秒数が変わったら再構築する
+    // デバイス番号やバッファ秒数が変わったら再構築。Lasp は EarlyUpdate で更新済みなので、ここで audioDataSlice を読んでリングバッファに追記する。
     void Update () {
         if ( !Lasp.AudioSystem.InputDevices.Any () )
             return;
         if ( lastDeviceIndex != deviceIndex || lastMaxBufferSeconds != maxBufferSeconds )
             RebuildDeviceAndBuffers ();
-    }
 
-    // 各チャンネルの入力波形をリングバッファに追記する
-    void LateUpdate () {
-        if ( !Lasp.AudioSystem.InputDevices.Any () || trackers == null || trackers.Count == 0 )
+        if ( trackers == null || trackers.Count == 0 )
             return;
 
         for ( int ch = 0; ch < trackers.Count; ch++ ) {

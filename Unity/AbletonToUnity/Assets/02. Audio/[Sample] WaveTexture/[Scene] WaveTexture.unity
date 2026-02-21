@@ -268,7 +268,7 @@ GameObject:
   - component: {fileID: 2000000003}
   - component: {fileID: 2000000002}
   m_Layer: 0
-  m_Name: WaveformViewer
+  m_Name: WaveTexture
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -298,26 +298,42 @@ MonoBehaviour:
   m_GameObject: {fileID: 2000000000}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bef3bc58dc3966f4b9825a07f8b4d0d8, type: 3}
+  m_Script: {fileID: 11500000, guid: 7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::WaveDrawer
+  m_EditorClassIdentifier: Assembly-CSharp::WaveTexture
   dataSource: {fileID: 2000000003}
   sampleSeconds: 0.01
-  drawResolution: 960
-  displayWidth: 1920
-  displayHeight: 1080
-  lineWidth: 2
-  amplitude: 4
-  lineMaterial: {fileID: 2100000, guid: 8ca8cddcb5a70ec4291be7b9bc75c28c, type: 2}
-  channelColors:
-  - {r: 1, g: 0.2, b: 0.2, a: 1}
-  - {r: 0.2, g: 0.8, b: 0.2, a: 1}
-  - {r: 0.2, g: 0.4, b: 1, a: 1}
-  - {r: 1, g: 0.9, b: 0.2, a: 1}
-  - {r: 0.2, g: 0.9, b: 0.9, a: 1}
-  - {r: 1, g: 0.4, b: 0.9, a: 1}
-  - {r: 1, g: 1, b: 1, a: 1}
-  - {r: 0.6, g: 0.6, b: 0.6, a: 1}
+  drawResolution: 1920
+  drawRect:
+    serializedVersion: 2
+    x: -960
+    y: -540
+    width: 1920
+    height: 1080
+  stripeMaterial: {fileID: 2100000, guid: d4e5f6a7b8c9012345678abcdef01234, type: 2}
+  defaultColor: {r: 0, g: 0, b: 0, a: 1}
+  channels:
+  - draw: 1
+    levelThreshold: 0.2
+  - draw: 0
+    levelThreshold: 0
+  - draw: 1
+    levelThreshold: 0.01
+  - draw: 0
+    levelThreshold: 0
+  - draw: 0
+    levelThreshold: 0
+  - draw: 0
+    levelThreshold: 0
+  - draw: 0
+    levelThreshold: 0
+  - draw: 0
+    levelThreshold: 0
+  splitAreaAB: 0
+  showWaveformOverlay: 0
+  waveformLineMaterial: {fileID: 10306, guid: 0000000000000000f000000000000000, type: 0}
+  waveformLineWidth: 4
+  waveformAmplitudeScale: 5
 --- !u!114 &2000000003
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -331,7 +347,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MultiWaveData
   deviceIndex: 0
-  channelEnabled: 0101010100000000
   maxBufferSeconds: 5
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
