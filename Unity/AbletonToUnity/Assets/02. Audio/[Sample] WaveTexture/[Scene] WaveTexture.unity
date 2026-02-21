@@ -302,7 +302,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WaveTexture
   dataSource: {fileID: 2000000003}
-  sampleSeconds: 0.01
+  sampleSeconds: 0.02
   drawResolution: 1920
   drawRect:
     serializedVersion: 2
@@ -317,7 +317,7 @@ MonoBehaviour:
     levelThreshold: 0.2
   - draw: 0
     levelThreshold: 0
-  - draw: 1
+  - draw: 0
     levelThreshold: 0.1
   - draw: 0
     levelThreshold: 0

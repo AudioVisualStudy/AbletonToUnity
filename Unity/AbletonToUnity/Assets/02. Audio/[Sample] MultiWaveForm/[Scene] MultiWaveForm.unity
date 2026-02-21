@@ -309,6 +309,7 @@ MonoBehaviour:
   lineWidth: 2
   amplitude: 4
   lineMaterial: {fileID: 2100000, guid: 8ca8cddcb5a70ec4291be7b9bc75c28c, type: 2}
+  drawChannel: 0100010000000000
   channelColors:
   - {r: 1, g: 0.2, b: 0.2, a: 1}
   - {r: 0.2, g: 0.8, b: 0.2, a: 1}
@@ -331,7 +332,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MultiWaveData
   deviceIndex: 0
-  channelEnabled: 0101010100000000
   maxBufferSeconds: 5
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
