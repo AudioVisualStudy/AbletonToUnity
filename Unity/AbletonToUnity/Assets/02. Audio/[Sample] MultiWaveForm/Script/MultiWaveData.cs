@@ -66,6 +66,7 @@ public sealed class MultiWaveData : MonoBehaviour {
         if ( effectiveRes <= 0 )
             return null;
 
+        // wi = 次に書く位置。直近のサンプルは buf[wi-1]。result[0]=過去 → result[effectiveRes-1]=最新 の順で返す
         float stepBack = effectiveRes > 1 ? ( sampleCount - 1 ) / ( float )( effectiveRes - 1 ) : 0f;
         float [ ] result = new float [ effectiveRes ];
 
@@ -181,8 +182,8 @@ public sealed class MultiWaveData : MonoBehaviour {
         lastDeviceIndex = deviceIndex;
         lastMaxBufferSeconds = maxBufferSeconds;
 
-        // 採用するデバイス名とチャンネル数を明示
-        Debug.Log ( $"[MultiWaveDataの使用デバイス] インデックス :  {safeIndex} / デバイス名 : {GetDeviceDisplayName ( dev )} / チャンネル数 :  {channelCount}" );
+        // 採用するデバイス名・チャンネル数・サンプルレートを明示
+        Debug.Log ( $"[MultiWaveDataの使用デバイス] インデックス : {safeIndex} / デバイス名 : {GetDeviceDisplayName ( dev )} / チャンネル数 : {channelCount} / サンプルレート : {sampleRate} Hz" );
 
         if ( trackers != null ) {
             foreach ( Lasp.AudioLevelTracker t in trackers ) {

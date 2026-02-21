@@ -318,7 +318,7 @@ MonoBehaviour:
   - draw: 0
     levelThreshold: 0
   - draw: 1
-    levelThreshold: 0.01
+    levelThreshold: 0.1
   - draw: 0
     levelThreshold: 0
   - draw: 0
