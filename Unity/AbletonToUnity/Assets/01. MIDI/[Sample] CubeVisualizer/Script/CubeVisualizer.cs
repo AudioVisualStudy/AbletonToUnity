@@ -98,16 +98,7 @@ public class CubeVisualizer : MonoBehaviour {
         SetupChromaticAberration ();  // Global VolumeのChromatic AberrationをCC連動用に取得
     }
 
-    // Global Volumeのプロファイルを複製し、Chromatic Aberration参照を取得（アセットを直接いじらないため）
-    void SetupChromaticAberration () {
-        if ( globalVolume == null || globalVolume.profile == null ) return;
-        globalVolume.profile = Instantiate ( globalVolume.profile );
-        if ( globalVolume.profile.TryGet ( out chromaticAberration ) ) {
-            chromaticAberration.active = true;
-            chromaticAberration.intensity.overrideState = true;
-            chromaticAberration.intensity.Override ( 0f );
-        }
-    }
+
 
     // 最大数だけキューブを生成し、最初は1個だけ表示
     void generateCubes () {
@@ -283,6 +274,15 @@ public class CubeVisualizer : MonoBehaviour {
         return Vector3.Distance ( sa, sb );
     }
 
-
+    // Global Volumeのプロファイルを複製し、Chromatic Aberration参照を取得（アセットを直接いじらないため）
+    void SetupChromaticAberration () {
+        if ( globalVolume == null || globalVolume.profile == null ) return;
+        globalVolume.profile = Instantiate ( globalVolume.profile );
+        if ( globalVolume.profile.TryGet ( out chromaticAberration ) ) {
+            chromaticAberration.active = true;
+            chromaticAberration.intensity.overrideState = true;
+            chromaticAberration.intensity.Override ( 0f );
+        }
+    }
 
 }
