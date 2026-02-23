@@ -1,4 +1,4 @@
-# CubeVisualizer サンプル - 初心者向け説明
+# CubeVisualizer サンプル 
 
 ## このサンプルでやっていること（一言で）
 
