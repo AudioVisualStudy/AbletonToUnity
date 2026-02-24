@@ -354,11 +354,11 @@ MonoBehaviour:
   ConnectOnAwake: 1
   useDebugLog: 0
   debugNoteOn: 1
-  debugNoteOff: 1
-  debugControlChange: 1
-  debugPitchBend: 1
-  debugProgramChange: 1
-  debugOtherEvents: 1
+  debugNoteOff: 0
+  debugControlChange: 0
+  debugPitchBend: 0
+  debugProgramChange: 0
+  debugOtherEvents: 0
 --- !u!4 &891224128
 Transform:
   m_ObjectHideFlags: 0

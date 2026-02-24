@@ -80,21 +80,19 @@ public class CubeVisualizer : MonoBehaviour {
     float vibrationIntensity;
     // Global VolumeのChromatic Aberration（CC連動用）
     ChromaticAberration chromaticAberration;
-    MidiHub midiHub;
+    MidiHub hub;
 
 
     //初期化
     void Start () {
         Application.targetFrameRate = 60;
 
-        midiHub = MidiHub.Instance; //MidiHubインスタンスへの参照
-        midiHub.startConnection (); //MIDIポートに接続
+        hub = MidiHub.Instance; //MidiHubインスタンスへの参照
 
-        midiHub.AddNoteOnListener ( onDrum, drumChannel );  //ドラムのMIDIチャンネルにリスナー関数を追加
-        midiHub.AddControlChangeListener ( onControlChange );  //コントロールチェンジにリスナー関数を追加
+        hub.AddNoteOnListener ( onDrum );  //ドラムのMIDIチャンネルにリスナー関数を追加
+        hub.AddControlChangeListener ( onControlChange );  //コントロールチェンジにリスナー関数を追加
 
         generateCubes ();//キューブを生成し、パラメータを初期化
-
         SetupChromaticAberration ();  // Global VolumeのChromatic AberrationをCC連動用に取得
     }
 
@@ -124,6 +122,8 @@ public class CubeVisualizer : MonoBehaviour {
                 cube [ i ].gameObject.SetActive ( i < visibleCubeCount );
         }
     }
+
+
     // ドラムが鳴った時。楽器の種類（note.Number）によって処理を分岐する
     void onDrum ( MidiNote note ) {
         if ( note.Number == NoteNum_Kick ) {
