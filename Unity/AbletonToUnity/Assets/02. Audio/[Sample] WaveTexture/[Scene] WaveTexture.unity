@@ -302,7 +302,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WaveTexture
   dataSource: {fileID: 2000000003}
-  sampleSeconds: 0.02
+  sampleSeconds: 0.03
   drawResolution: 1920
   drawRect:
     serializedVersion: 2
@@ -314,11 +314,11 @@ MonoBehaviour:
   defaultColor: {r: 0, g: 0, b: 0, a: 1}
   channels:
   - draw: 1
-    levelThreshold: 0.2
+    levelThreshold: 0.1
   - draw: 0
     levelThreshold: 0
-  - draw: 0
-    levelThreshold: 0.1
+  - draw: 1
+    levelThreshold: 0.5
   - draw: 0
     levelThreshold: 0
   - draw: 0

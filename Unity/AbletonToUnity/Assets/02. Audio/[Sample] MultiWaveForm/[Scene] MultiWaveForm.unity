@@ -302,12 +302,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WaveDrawer
   dataSource: {fileID: 2000000003}
-  sampleSeconds: 0.01
+  sampleSeconds: 0.02
   drawResolution: 960
   displayWidth: 1920
   displayHeight: 1080
-  lineWidth: 2
-  amplitude: 4
+  lineWidth: 3
+  amplitude: 1.5
   lineMaterial: {fileID: 2100000, guid: 8ca8cddcb5a70ec4291be7b9bc75c28c, type: 2}
   drawChannel: 0100010000000000
   channelColors:
